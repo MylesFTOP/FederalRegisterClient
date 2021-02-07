@@ -10,5 +10,9 @@ namespace FederalRegisterClient
         public static HttpClient CreateHttpClient() {
             return new HttpClient();
         }
+
+        public static DocumentModel CreateDocument() {
+            return new DocumentModel();
+        }
     }
 }
