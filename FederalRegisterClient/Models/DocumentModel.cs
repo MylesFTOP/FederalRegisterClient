@@ -6,6 +6,6 @@ namespace FederalRegisterClient
 {
     public class DocumentModel
     {
-        public int FederalRegisterDocumentNumber { get; set; }
+        public string FederalRegisterDocumentNumber { get; set; }
     }
 }
