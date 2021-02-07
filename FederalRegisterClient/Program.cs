@@ -19,10 +19,11 @@ namespace FederalRegisterClient
         static async Task<DocumentModel> GetDocumentAsync(DocumentModel document) {
             HttpResponseMessage response = await client
                 .GetAsync($"{document.FederalRegisterDocumentNumber}.json");
-            // string responseBody = null;
-            // if (response.IsSuccessStatusCode) {
-            //     responseBody = await response.Content.ReadAsStringAsync();
-            // }
+            string responseBody = null;
+            if (response.IsSuccessStatusCode) {
+                responseBody = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"Response body: {responseBody}");
+            }
             return document;
         }
 
