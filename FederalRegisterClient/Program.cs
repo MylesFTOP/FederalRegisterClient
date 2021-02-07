@@ -12,10 +12,6 @@ namespace FederalRegisterClient
     {
         static HttpClient client = Factory.CreateHttpClient();
 
-        static void ShowDocument(DocumentModel document) {
-            Console.WriteLine($"Document Reference: {document.FederalRegisterDocumentNumber}");
-        }
-
         static async Task<DocumentModel> GetDocumentAsync(DocumentModel document) {
             HttpResponseMessage response = await client
                 .GetAsync($"{document.FederalRegisterDocumentNumber}.json");
@@ -42,7 +38,7 @@ namespace FederalRegisterClient
                 DocumentModel document = Factory.CreateDocument();
                 document.FederalRegisterDocumentNumber = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
                 document = await GetDocumentAsync(document);
-                ShowDocument(document);
+                DocumentHandler.ShowDocument(document);
             }
             catch(Exception e) {
                 Console.WriteLine(e.Message);
