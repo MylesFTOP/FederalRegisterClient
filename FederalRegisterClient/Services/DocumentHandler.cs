@@ -30,11 +30,7 @@ namespace FederalRegisterClient
         }
 
         public static async Task RunAsync() {
-            client.BaseAddress = new Uri("https://www.federalregister.gov/api/v1/documents/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json")
-                );
+            ConfigureClient();
 
             try {
                 var document = await GetDocumentAsync("01-27917"); // EO 13233, "Further Implementation of the Presidential Records Act"
@@ -43,6 +39,14 @@ namespace FederalRegisterClient
             catch (Exception e) {
                 Console.WriteLine(e.Message);
             }
+        }
+
+        private static void ConfigureClient() {
+            client.BaseAddress = new Uri("https://www.federalregister.gov/api/v1/documents/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json")
+                );
         }
     }
 }
