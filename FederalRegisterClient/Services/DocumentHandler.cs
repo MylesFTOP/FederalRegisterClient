@@ -42,11 +42,13 @@ namespace FederalRegisterClient
         }
 
         public static void ConfigureClient() {
-            client.BaseAddress = new Uri("https://www.federalregister.gov/api/v1/documents/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json")
-                );
+            if(client.BaseAddress is null) {
+                client.BaseAddress = new Uri("https://www.federalregister.gov/api/v1/documents/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json")
+                    );
+            }
         }
     }
 }
