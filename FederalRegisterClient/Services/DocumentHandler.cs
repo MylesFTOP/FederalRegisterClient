@@ -41,7 +41,7 @@ namespace FederalRegisterClient
             }
         }
 
-        private static void ConfigureClient() {
+        public static void ConfigureClient() {
             client.BaseAddress = new Uri("https://www.federalregister.gov/api/v1/documents/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
