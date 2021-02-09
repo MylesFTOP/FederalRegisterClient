@@ -26,8 +26,11 @@ namespace FederalRegisterClient
         public static void ShowDocument(DocumentModel document) {
             Console.WriteLine($"Document Reference: {document.FederalRegisterDocumentNumber}");
             Console.WriteLine($"Document Title: {document.DocumentTitle}");
-            Console.WriteLine($"Publication Type: {document.PublicationType}");
             Console.WriteLine($"Publication Date: {document.PublicationDate.ToShortDateString()}");
+            Console.WriteLine($"Publication Type: {document.PublicationType}");
+            Console.WriteLine($"Presidential Document Type: {document.PresidentialDocumentType}");
+            Console.WriteLine($"Document citation: {document.DocumentCitation}");
+            Console.WriteLine($"Abstract: {document.Abstract}");
         }
 
         public static async Task RunAsync() {

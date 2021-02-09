@@ -18,5 +18,14 @@ namespace FederalRegisterClient
 
         [JsonProperty("publication_date")]
         public DateTime PublicationDate { get; set; }
+
+        [JsonProperty("citation")]
+        public string DocumentCitation { get; set; }
+
+        [JsonProperty("subtype")]
+        public string PresidentialDocumentType { get; set; }
+
+        [JsonProperty("abstract")]
+        public string Abstract { get; set; }
     }
 }
