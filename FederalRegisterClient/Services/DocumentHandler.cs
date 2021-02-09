@@ -19,8 +19,6 @@ namespace FederalRegisterClient
                 .GetAsync($"{documentNumber}.json");
             if (response.IsSuccessStatusCode) {
                 document = await response.Content.ReadAsAsync<DocumentModel>();
-                var responseBody = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"Response body: {responseBody}");
             }
             return document;
         }
