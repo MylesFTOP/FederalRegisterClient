@@ -40,7 +40,7 @@ namespace FederalRegisterClient
 
             Console.WriteLine("Please enter document reference to retrieve:");
             var userInput = Console.ReadLine();
-            var documentNumberToRetrieve = userInput != string.Empty ? userInput : defaultTest;
+            var documentNumberToRetrieve = userInput == string.Empty ? defaultTest : userInput;
             try {
                 var document = await GetDocumentAsync(documentNumberToRetrieve);
                 ShowDocument(document);
