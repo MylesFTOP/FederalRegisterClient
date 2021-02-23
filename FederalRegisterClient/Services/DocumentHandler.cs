@@ -33,11 +33,8 @@ namespace FederalRegisterClient
         }
 
         public static async Task RunAsync() {
-            var defaultTest = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
-
             Console.WriteLine("Please enter document reference to retrieve:");
-            var userInput = Console.ReadLine();
-            var documentNumberToRetrieve = userInput == string.Empty ? defaultTest : userInput;
+            var documentNumberToRetrieve = Console.ReadLine();
             try {
                 var document = await GetDocumentAsync(documentNumberToRetrieve);
                 ShowDocument(document);
