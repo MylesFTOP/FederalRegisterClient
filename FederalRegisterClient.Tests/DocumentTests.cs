@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Moq;
+using Moq.Protected;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -17,6 +19,25 @@ namespace FederalRegisterClient.Tests
 
         [Fact]
         public async Task DocumentHandler_GetDocumentAsync_ShouldRetrieveExpectedDocument() {
+
+            var handlerMock = new Mock<HttpMessageHandler>();
+            var response = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(@"[{ ""document_number"" : ""01-27917""}]")
+            };
+
+            handlerMock
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    It.IsAny<HttpRequestMessage>(),
+                    It.IsAny<CancellationToken>())
+                .ReturnsAsync(response);
+
+            var httpClient = new HttpClient(handlerMock.Object);
+
+
             DocumentHandler.ConfigureClient();
             var expected = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
             var document = await DocumentHandler.GetDocumentAsync(expected);
