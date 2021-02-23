@@ -10,13 +10,12 @@ namespace FederalRegisterClient
 {
     public static class DocumentHandler
     {
-        public static HttpClient client = Factory.CreateHttpClient();
+        public static HttpClient _client;
 
         public static async Task<DocumentModel> GetDocumentAsync(string documentNumber) {
             DocumentModel document = Factory.CreateDocument();
 
-            HttpResponseMessage response = await client
-                .GetAsync($"{documentNumber}.json");
+            HttpResponseMessage response = await _client.GetAsync($"{documentNumber}.json");
             if (response.IsSuccessStatusCode) {
                 document = await response.Content.ReadAsAsync<DocumentModel>();
             }
@@ -34,8 +33,6 @@ namespace FederalRegisterClient
         }
 
         public static async Task RunAsync() {
-            ConfigureClient();
-
             var defaultTest = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
 
             Console.WriteLine("Please enter document reference to retrieve:");
@@ -50,11 +47,13 @@ namespace FederalRegisterClient
             }
         }
 
-        public static void ConfigureClient() {
-            if(client.BaseAddress is null) {
-                client.BaseAddress = new Uri("https://www.federalregister.gov/api/v1/documents/");
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(
+        public static void ConfigureClient(HttpClient client) {
+            _client = client;
+
+            if(_client.BaseAddress is null) {
+                _client.BaseAddress = new Uri("https://www.federalregister.gov/api/v1/documents/");
+                _client.DefaultRequestHeaders.Accept.Clear();
+                _client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json")
                     );
             }
