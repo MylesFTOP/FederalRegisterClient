@@ -10,12 +10,12 @@ namespace FederalRegisterClient
 {
     public static class DocumentHandler
     {
-        public static HttpClient _client;
+        public static HttpClient _httpClient;
 
         public static async Task<DocumentModel> GetDocumentAsync(string documentNumber) {
             DocumentModel document = Factory.CreateDocument();
 
-            HttpResponseMessage response = await _client.GetAsync($"{documentNumber}.json");
+            HttpResponseMessage response = await _httpClient.GetAsync($"{documentNumber}.json");
             if (response.IsSuccessStatusCode) {
                 document = await response.Content.ReadAsAsync<DocumentModel>();
             }
@@ -45,12 +45,12 @@ namespace FederalRegisterClient
         }
 
         public static void ConfigureClient(HttpClient client) {
-            _client = client;
+            _httpClient = client;
 
-            if(_client.BaseAddress is null) {
-                _client.BaseAddress = new Uri("https://www.federalregister.gov/api/v1/documents/");
-                _client.DefaultRequestHeaders.Accept.Clear();
-                _client.DefaultRequestHeaders.Accept.Add(
+            if(_httpClient.BaseAddress is null) {
+                _httpClient.BaseAddress = new Uri("https://www.federalregister.gov/api/v1/documents/");
+                _httpClient.DefaultRequestHeaders.Accept.Clear();
+                _httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json")
                     );
             }
