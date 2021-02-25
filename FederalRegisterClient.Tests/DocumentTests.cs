@@ -32,7 +32,7 @@ namespace FederalRegisterClient.Tests
             DocumentHandler.ConfigureClient(httpClient);
 
             var expected = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
-            var document = await DocumentHandler.GetDocumentAsJsonAsync(expected);
+            var document = await DocumentHandler.GetDocumentAsync(expected);
             //Assert.NotNull(document);
             //handlerMock.Protected().Verify(
             //    "SendAsync",
@@ -44,7 +44,7 @@ namespace FederalRegisterClient.Tests
         [Fact(Skip = "Not mocked")]
         public async Task DocumentHandler_GetDocumentAsync_ShouldRetrieveDocument() {
             DocumentHandler.ConfigureClient(Factory.CreateHttpClient());
-            var document = await DocumentHandler.GetDocumentAsJsonAsync("01-27917");
+            var document = await DocumentHandler.GetDocumentAsync("01-27917");
             Assert.IsType<DocumentModel>(document);
         }
 
@@ -52,7 +52,7 @@ namespace FederalRegisterClient.Tests
         public async Task DocumentHandler_GetDocumentAsync_ShouldRetrieveExpectedDocument() {
             DocumentHandler.ConfigureClient(Factory.CreateHttpClient());
             var expected = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
-            var document = await DocumentHandler.GetDocumentAsJsonAsync(expected);
+            var document = await DocumentHandler.GetDocumentAsync(expected);
             var actual = document.FederalRegisterDocumentNumber;
             Assert.Equal(expected, actual);
         }
