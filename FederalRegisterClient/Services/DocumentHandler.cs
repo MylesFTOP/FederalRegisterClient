@@ -12,12 +12,13 @@ namespace FederalRegisterClient
     {
         public static HttpClient _httpClient;
 
+        // TODO: Change to retrieve as JSON (update names as well), then call separate method to deserialize JSON to DocumentModel
         public static async Task<DocumentModel> GetDocumentAsync(string documentNumber) {
             DocumentModel document = Factory.CreateDocument();
 
-            HttpResponseMessage response = await _httpClient.GetAsync($"{documentNumber}.json");
-            if (response.IsSuccessStatusCode) {
-                document = await response.Content.ReadAsAsync<DocumentModel>();
+            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync($"{documentNumber}.json");
+            if (httpResponseMessage.IsSuccessStatusCode) {
+                document = await httpResponseMessage.Content.ReadAsAsync<DocumentModel>();
             }
             return document;
         }
