@@ -2,6 +2,7 @@
 using Moq.Protected;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -13,10 +14,11 @@ namespace FederalRegisterClient.Tests
         [Fact]
         public async Task DocumentHandler_ShouldReturnDocument() {
             var handlerMock = new Mock<HttpMessageHandler>();
+            var httpResponseContent = @"[{ ""document_number"" : ""01-27917""}]";
             var response = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(@"[{ ""document_number"" : ""01-27917""}]")
+                Content = new StringContent(httpResponseContent, Encoding.UTF8, "application/json")
             };
 
             handlerMock
