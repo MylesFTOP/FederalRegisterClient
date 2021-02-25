@@ -15,7 +15,7 @@ namespace FederalRegisterClient.Tests
         public async Task DocumentHandler_ShouldReturnDocument() {
             var handlerMock = new Mock<HttpMessageHandler>();
             var httpResponseContent = @"[{ ""document_number"" : ""01-27917""}]";
-            var response = new HttpResponseMessage
+            var httpResponseMessage = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(httpResponseContent, Encoding.UTF8, "application/json")
@@ -27,7 +27,7 @@ namespace FederalRegisterClient.Tests
                     "SendAsync",
                     ItExpr.IsAny<HttpRequestMessage>(),
                     ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(response);
+                .ReturnsAsync(httpResponseMessage);
 
             var httpClient = new HttpClient(handlerMock.Object);
             DocumentHandler.ConfigureClient(httpClient);
