@@ -33,12 +33,12 @@ namespace FederalRegisterClient.Tests
 
             var expected = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
             var document = await DocumentHandler.GetDocumentAsync(expected);
-            //Assert.NotNull(document);
-            //handlerMock.Protected().Verify(
-            //    "SendAsync",
-            //    Times.Exactly(1),
-            //    ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get),
-            //    ItExpr.IsAny<CancellationToken>());
+            Assert.NotNull(document);
+            handlerMock.Protected().Verify(
+                "SendAsync",
+                Times.Exactly(1),
+                ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get),
+                ItExpr.IsAny<CancellationToken>());
         }
 
         [Fact(Skip = "Not mocked")]
