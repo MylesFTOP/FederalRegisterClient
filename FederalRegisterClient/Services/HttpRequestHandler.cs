@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FederalRegisterClient
 {
-    public static class RequestHandler
+    public static class HttpRequestHandler
     {
         public static HttpClient _httpClient;
 
