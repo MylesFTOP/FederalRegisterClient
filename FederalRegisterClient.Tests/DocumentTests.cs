@@ -41,7 +41,7 @@ namespace FederalRegisterClient.Tests
                 ItExpr.IsAny<CancellationToken>());
         }
 
-        [Fact(Skip = "Not mocked")]
+        [Fact]
         public async Task DocumentHandler_GetDocumentAsync_ShouldRetrieveDocument() {
             HttpRequestHandler.ConfigureClient(Factory.CreateHttpClient());
             var document = await DocumentHandler.GetDocumentAsync("01-27917");
