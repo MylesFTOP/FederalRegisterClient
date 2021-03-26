@@ -11,8 +11,7 @@ namespace FederalRegisterClient
     public static class DocumentHandler
     {
         public static async Task<DocumentModel> GetDocumentAsync(string documentNumber) {
-            var document = await HttpRequestHandler.GetDocumentAsJsonAsync(documentNumber);
-            return document;
+            return await HttpRequestHandler.GetDocumentAsJsonAsync(documentNumber);
         }
 
         public static void ShowDocument(DocumentModel document) {
