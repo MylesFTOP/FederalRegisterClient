@@ -27,6 +27,7 @@ namespace FederalRegisterClient
 
             if (_httpClient.BaseAddress is null) {
                 _httpClient.BaseAddress = new Uri("https://www.federalregister.gov/api/v1/documents/");
+                _httpClient.Timeout = TimeSpan.FromMilliseconds(1000);
                 _httpClient.DefaultRequestHeaders.Accept.Clear();
                 _httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json")
