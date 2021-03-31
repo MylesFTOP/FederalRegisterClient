@@ -11,16 +11,6 @@ namespace FederalRegisterClient
     {
         public static HttpClient _httpClient;
 
-        public static async Task<DocumentModel> GetDocumentAsJsonAsync(string documentNumber) {
-            DocumentModel document = Factory.CreateDocument();
-
-            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync($"{documentNumber}.json");
-            if (httpResponseMessage.IsSuccessStatusCode) {
-                document = await httpResponseMessage.Content.ReadAsAsync<DocumentModel>();
-            }
-            return document;
-        }
-
         public static void ConfigureClient(HttpClient client) {
             _httpClient = client;
 
@@ -32,6 +22,16 @@ namespace FederalRegisterClient
                     new MediaTypeWithQualityHeaderValue("application/json")
                     );
             }
+        }
+
+        public static async Task<DocumentModel> GetDocumentAsJsonAsync(string documentNumber) {
+            DocumentModel document = Factory.CreateDocument();
+
+            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync($"{documentNumber}.json");
+            if (httpResponseMessage.IsSuccessStatusCode) {
+                document = await httpResponseMessage.Content.ReadAsAsync<DocumentModel>();
+            }
+            return document;
         }
     }
 }
