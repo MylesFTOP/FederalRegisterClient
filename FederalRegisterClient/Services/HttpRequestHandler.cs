@@ -11,11 +11,11 @@ namespace FederalRegisterClient
     {
         public static HttpClient _httpClient;
 
-        public static void ConfigureClient(HttpClient client) {
+        public static void ConfigureClient(HttpClient client, string url) {
             _httpClient = client;
 
             if (_httpClient.BaseAddress is null) {
-                _httpClient.BaseAddress = new Uri("https://www.federalregister.gov/api/v1/documents/");
+                _httpClient.BaseAddress = new Uri(url);
                 _httpClient.Timeout = TimeSpan.FromMilliseconds(1000);
                 _httpClient.DefaultRequestHeaders.Accept.Clear();
                 _httpClient.DefaultRequestHeaders.Accept.Add(
