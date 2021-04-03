@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FederalRegisterClient
 {
-    public static class HttpRequestHandler
+    public class HttpRequestHandler
     {
         public static HttpClient _httpClient;
         private static int RetryAttempts { get; set; }
