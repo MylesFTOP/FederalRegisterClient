@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FederalRegisterClient
@@ -10,6 +12,7 @@ namespace FederalRegisterClient
     public static class HttpRequestHandler
     {
         public static HttpClient _httpClient;
+        private static int RetryAttempts { get; set; }
 
         public static void ConfigureClient(HttpClient client, string url) {
             _httpClient = client;
@@ -26,12 +29,32 @@ namespace FederalRegisterClient
 
         public static async Task<DocumentModel> GetDocumentAsJsonAsync(string documentNumber) {
             DocumentModel document = Factory.CreateDocument();
+            var cancellationTokenSource = new CancellationTokenSource();
 
-            HttpResponseMessage httpResponseMessage = await _httpClient.GetAsync($"{documentNumber}.json");
+            HttpResponseMessage httpResponseMessage = await ReturnDocumentAsJsonAsync(documentNumber);
             if (httpResponseMessage.IsSuccessStatusCode) {
                 document = await httpResponseMessage.Content.ReadAsAsync<DocumentModel>();
             }
+            else if (StatusCodeIsRetryable(httpResponseMessage.StatusCode)) {
+                TimeSpan retryDelay = httpResponseMessage.Headers.RetryAfter.Delta ?? default;
+                await Task.Delay(retryDelay);
+                httpResponseMessage = await ReturnDocumentAsJsonAsync(documentNumber);
+            }
             return document;
+        }   
+
+        private static bool StatusCodeIsRetryable(HttpStatusCode statusCode)
+        {
+            if (statusCode == HttpStatusCode.TooManyRequests)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private static async Task<HttpResponseMessage> ReturnDocumentAsJsonAsync(string documentNumber)
+        {
+            return await _httpClient.GetAsync($"{documentNumber}.json");
         }
     }
 }
