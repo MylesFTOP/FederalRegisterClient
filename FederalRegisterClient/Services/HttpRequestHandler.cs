@@ -30,7 +30,6 @@ namespace FederalRegisterClient
 
         public static async Task<DocumentModel> GetDocumentAsJsonAsync(string documentNumber) {
             DocumentModel document = Factory.CreateDocument();
-            var cancellationTokenSource = new CancellationTokenSource();
 
             HttpResponseMessage httpResponseMessage = await ReturnDocumentAsJsonAsync(documentNumber);
             if (httpResponseMessage.IsSuccessStatusCode) {
@@ -47,6 +46,7 @@ namespace FederalRegisterClient
         private static bool StatusCodeIsRetryable(HttpStatusCode statusCode)
         {
             HttpStatusCode[] retryableStatusCodes = { 
+                HttpStatusCode.ServiceUnavailable,
                 HttpStatusCode.TooManyRequests
             };
             return retryableStatusCodes.Contains(statusCode);

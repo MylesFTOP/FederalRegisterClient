@@ -13,8 +13,10 @@ namespace FederalRegisterClient.Tests
 {
     public class HttpRequestTests
     {
-        [Fact]
-        public async Task GetDocumentAsJsonAsync_ShouldRetryIfStatusCodeIsTooManyRequests()
+        [Theory]
+        [InlineData(HttpStatusCode.ServiceUnavailable)]
+        [InlineData(HttpStatusCode.TooManyRequests)]
+        public async Task GetDocumentAsJsonAsync_ShouldRetryIfStatusCodeIsTooManyRequests(HttpStatusCode httpStatusCode)
         {
             var httpRequestHandler = new HttpRequestHandler();
             var handlerMock = new Mock<HttpMessageHandler>();
@@ -22,8 +24,7 @@ namespace FederalRegisterClient.Tests
             var retryCondition = new RetryConditionHeaderValue(timeSpanDelay).ToString();
             var httpResponseMessage = new HttpResponseMessage
             {
-                StatusCode = HttpStatusCode.TooManyRequests,
-                Content = new StringContent(@"{ ""document_number"" : ""01-27917""}", Encoding.UTF8, "application/json")
+                StatusCode = httpStatusCode
             };
             httpResponseMessage.Headers.Add("Retry-After", retryCondition);
 
