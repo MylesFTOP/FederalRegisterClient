@@ -16,7 +16,7 @@ namespace FederalRegisterClient.Tests
         [Theory]
         [InlineData(HttpStatusCode.ServiceUnavailable)]
         [InlineData(HttpStatusCode.TooManyRequests)]
-        public async Task GetDocumentAsJsonAsync_ShouldRetryIfStatusCodeIsTooManyRequests(HttpStatusCode httpStatusCode)
+        public async Task GetDocumentAsJsonAsync_ShouldRetryIfStatusCodeIsRetryable(HttpStatusCode httpStatusCode)
         {
             var httpRequestHandler = new HttpRequestHandler();
             var handlerMock = new Mock<HttpMessageHandler>();
