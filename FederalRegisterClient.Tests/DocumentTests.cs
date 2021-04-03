@@ -6,7 +6,7 @@ namespace FederalRegisterClient.Tests
 {
     public class DocumentTests
     {
-        [Fact]
+        [Fact(Skip = "Test has external dependency")]
         public async Task DocumentHandler_GetDocumentAsync_ShouldRetrieveDocument() {
             HttpRequestHandler.ConfigureClient(
                 Factory.CreateHttpClient(), "https://www.federalregister.gov/api/v1/documents/");
