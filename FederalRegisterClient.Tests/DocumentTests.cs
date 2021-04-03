@@ -29,7 +29,7 @@ namespace FederalRegisterClient.Tests
                 .ReturnsAsync(httpResponseMessage);
 
             var httpClient = new HttpClient(handlerMock.Object);
-            HttpRequestHandler.ConfigureClient(httpClient);
+            HttpRequestHandler.ConfigureClient(httpClient, "https://www.federalregister.gov/api/v1/documents/");
 
             var expected = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
             var document = await DocumentHandler.GetDocumentAsync(expected);
@@ -43,7 +43,8 @@ namespace FederalRegisterClient.Tests
 
         [Fact]
         public async Task DocumentHandler_GetDocumentAsync_ShouldRetrieveDocument() {
-            HttpRequestHandler.ConfigureClient(Factory.CreateHttpClient());
+            HttpRequestHandler.ConfigureClient(
+                Factory.CreateHttpClient(), "https://www.federalregister.gov/api/v1/documents/");
             var document = await DocumentHandler.GetDocumentAsync("01-27917");
             Assert.IsType<DocumentModel>(document);
         }
