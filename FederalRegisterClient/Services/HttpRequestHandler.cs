@@ -36,8 +36,7 @@ namespace FederalRegisterClient
                 document = await httpResponseMessage.Content.ReadAsAsync<DocumentModel>();
             }
             else if (StatusCodeIsRetryable(httpResponseMessage.StatusCode)) {
-                TimeSpan retryDelay = httpResponseMessage.Headers.RetryAfter.Delta ?? default;
-                await Task.Delay(retryDelay);
+                await Task.Delay(httpResponseMessage.Headers.RetryAfter.Delta ?? default);
                 httpResponseMessage = await ReturnDocumentAsJsonAsync(documentNumber);
             }
             return document;
