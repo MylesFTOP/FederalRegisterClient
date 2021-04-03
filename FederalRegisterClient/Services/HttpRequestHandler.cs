@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -45,11 +46,10 @@ namespace FederalRegisterClient
 
         private static bool StatusCodeIsRetryable(HttpStatusCode statusCode)
         {
-            if (statusCode == HttpStatusCode.TooManyRequests)
-            {
-                return true;
-            }
-            return false;
+            HttpStatusCode[] retryableStatusCodes = { 
+                HttpStatusCode.TooManyRequests
+            };
+            return retryableStatusCodes.Contains(statusCode);
         }
 
         private static async Task<HttpResponseMessage> ReturnDocumentAsJsonAsync(string documentNumber)
