@@ -43,7 +43,7 @@ namespace FederalRegisterClient.Tests
 
             handlerMock.Protected().Verify(
                 "SendAsync",
-                Times.Exactly(2),
+                Times.Exactly(3),
                 ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get),
                 ItExpr.IsAny<CancellationToken>()
                 );

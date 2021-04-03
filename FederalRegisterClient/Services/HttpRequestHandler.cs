@@ -13,7 +13,7 @@ namespace FederalRegisterClient
     public class HttpRequestHandler
     {
         public static HttpClient _httpClient;
-        private static int RetryAttempts { get; set; }
+        private static int MaxRetries { get; } = 3;
 
         public static void ConfigureClient(HttpClient client, string url) {
             _httpClient = client;
@@ -31,13 +31,15 @@ namespace FederalRegisterClient
         public static async Task<DocumentModel> GetDocumentAsJsonAsync(string documentNumber) {
             DocumentModel document = Factory.CreateDocument();
 
-            HttpResponseMessage httpResponseMessage = await ReturnDocumentAsJsonAsync(documentNumber);
-            if (httpResponseMessage.IsSuccessStatusCode) {
-                document = await httpResponseMessage.Content.ReadAsAsync<DocumentModel>();
-            }
-            else if (StatusCodeIsRetryable(httpResponseMessage.StatusCode)) {
-                await Task.Delay(httpResponseMessage.Headers.RetryAfter.Delta ?? default);
-                httpResponseMessage = await ReturnDocumentAsJsonAsync(documentNumber);
+            for (int retryAttempts = 0; retryAttempts < MaxRetries; retryAttempts++) {
+                HttpResponseMessage httpResponseMessage = await ReturnDocumentAsJsonAsync(documentNumber);
+                if (httpResponseMessage.IsSuccessStatusCode) {
+                    return await httpResponseMessage.Content.ReadAsAsync<DocumentModel>();
+                }
+                if (StatusCodeIsRetryable(httpResponseMessage.StatusCode)) {
+                    await Task.Delay(httpResponseMessage.Headers.RetryAfter.Delta ?? default);
+                    continue;
+                }
             }
             return document;
         }   
