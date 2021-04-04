@@ -14,5 +14,9 @@ namespace FederalRegisterClient
         public static DocumentModel CreateDocument() {
             return new DocumentModel();
         }
+
+        public static List<DocumentModel> CreateDocumentList() {
+            return new List<DocumentModel>();
+        }
     }
 }
