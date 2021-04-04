@@ -12,6 +12,7 @@ namespace FederalRegisterClient
     {
         public static List<DocumentModel> GetDocuments(List<string> documentNumbers)
         {
+            // TODO: Check if there's a way to pass an array or range in a single call instead of making repeated calls
             List<DocumentModel> documents = Factory.CreateDocumentList();
             foreach (var documentNumber in documentNumbers)
             {
