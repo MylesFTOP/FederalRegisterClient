@@ -14,6 +14,10 @@ namespace FederalRegisterClient
             return await HttpRequestHandler.GetDocumentAsJsonAsync(documentNumber);
         }
 
+        private static void ShowDocuments(List<DocumentModel> documents) {
+            documents.ForEach(x => ShowDocument(x));
+        }
+
         public static void ShowDocument(DocumentModel document) {
             Console.WriteLine($"Document Reference: {document.FederalRegisterDocumentNumber}");
             Console.WriteLine($"Document Title: {document.DocumentTitle}");
