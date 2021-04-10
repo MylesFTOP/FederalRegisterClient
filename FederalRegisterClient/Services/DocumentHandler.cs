@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FederalRegisterClient
@@ -21,32 +17,45 @@ namespace FederalRegisterClient
             return documents;
         }
 
-        public static async Task<DocumentModel> GetDocumentAsync(string documentNumber) {
+        public static async Task<DocumentModel> GetDocumentAsync(string documentNumber)
+        {
             return await HttpRequestHandler.GetDocumentAsJsonAsync(documentNumber);
         }
 
-        private static void ShowDocuments(List<DocumentModel> documents) {
+        private static void ShowDocuments(List<DocumentModel> documents)
+        {
             documents.ForEach(x => ShowDocument(x));
         }
 
-        public static void ShowDocument(DocumentModel document) {
-            Console.WriteLine($"Document Reference: {document.FederalRegisterDocumentNumber}");
-            Console.WriteLine($"Document Title: {document.DocumentTitle}");
-            Console.WriteLine($"Publication Date: {document.PublicationDate.ToShortDateString()}");
-            Console.WriteLine($"Publication Type: {document.PublicationType}");
-            Console.WriteLine($"Presidential Document Type: {document.PresidentialDocumentType}");
-            Console.WriteLine($"Document citation: {document.DocumentCitation}");
-            Console.WriteLine($"Abstract: {document.Abstract}");
+        public static void ShowDocument(DocumentModel document)
+        {
+            Dictionary<string, string> documentDisplay = new Dictionary<string, string> {
+                { "Document Reference", document.FederalRegisterDocumentNumber },
+                { "Document Title", document.DocumentTitle },
+                { "Publication Date", document.PublicationDate.ToShortDateString() },
+                { "Publication Type", document.PublicationType },
+                { "Presidential Document Type", document.PresidentialDocumentType },
+                { "Document citation", document.DocumentCitation },
+                { "Abstract", document.Abstract },
+            };
+
+            foreach (KeyValuePair<string, string> item in documentDisplay)
+            {
+                Console.WriteLine($"{item.Key}: {item.Value}");
+            }
         }
 
-        public static async Task RunAsync() {
+        public static async Task RunAsync()
+        {
             Console.WriteLine("Please enter document reference to retrieve:");
             String documentNumberToRetrieve = Console.ReadLine();
-            try {
+            try
+            {
                 var document = await GetDocumentAsync(documentNumberToRetrieve);
                 ShowDocument(document);
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Console.WriteLine(e.Message);
             }
         }
