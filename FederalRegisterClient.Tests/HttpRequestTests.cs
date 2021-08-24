@@ -38,7 +38,7 @@ namespace FederalRegisterClient.Tests
                 .ReturnsAsync(httpResponseMessage);
 
             var httpClient = new HttpClient(handlerMock.Object);
-            HttpRequestHandler.ConfigureClient(httpClient, "");
+            HttpRequestHandler.ConfigureClient(httpClient, "https://www.mock.test/");
 
             var document = await DocumentHandler.GetDocumentAsync("");
 
