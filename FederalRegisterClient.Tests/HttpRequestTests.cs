@@ -14,9 +14,10 @@ namespace FederalRegisterClient.Tests
     public class HttpRequestTests
     {
         [Theory]
-        [InlineData(HttpStatusCode.ServiceUnavailable)]
-        [InlineData(HttpStatusCode.TooManyRequests)]
-        public async Task GetDocumentAsJsonAsync_ShouldRetryIfStatusCodeIsRetryable(HttpStatusCode httpStatusCode)
+        [InlineData(HttpStatusCode.ServiceUnavailable, 3)]
+        [InlineData(HttpStatusCode.TooManyRequests, 3)]
+        [InlineData(HttpStatusCode.NotFound, 1)]
+        public async Task GetDocumentAsJsonAsync_ShouldRetryIfStatusCodeIsRetryable(HttpStatusCode httpStatusCode, int numberOfTries)
         {
             var httpRequestHandler = new HttpRequestHandler();
             var handlerMock = new Mock<HttpMessageHandler>();
@@ -37,13 +38,13 @@ namespace FederalRegisterClient.Tests
                 .ReturnsAsync(httpResponseMessage);
 
             var httpClient = new HttpClient(handlerMock.Object);
-            HttpRequestHandler.ConfigureClient(httpClient, "https://www.federalregister.gov/api/v1/documents/");
+            HttpRequestHandler.ConfigureClient(httpClient, "");
 
-            var document = await DocumentHandler.GetDocumentAsync("placeholder");
+            var document = await DocumentHandler.GetDocumentAsync("");
 
             handlerMock.Protected().Verify(
                 "SendAsync",
-                Times.Exactly(3),
+                Times.Exactly(numberOfTries),
                 ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get),
                 ItExpr.IsAny<CancellationToken>()
                 );
