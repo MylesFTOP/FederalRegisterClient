@@ -41,7 +41,10 @@ namespace FederalRegisterClient
 
             foreach (KeyValuePair<string, string> item in documentDisplay)
             {
-                Console.WriteLine($"{item.Key}: {item.Value}");
+                if (!String.IsNullOrEmpty(item.Value))
+                {
+                    Console.WriteLine($"{item.Key}: {item.Value}");
+                }
             }
         }
 
