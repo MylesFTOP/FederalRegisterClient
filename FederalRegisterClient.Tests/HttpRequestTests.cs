@@ -50,7 +50,7 @@ namespace FederalRegisterClient.Tests
                 );
         }
 
-        [Fact]
+        [Fact(Skip = "Test has external dependency")]
         public async Task DocumentHandler_ShouldReturnDocument()
         {
             var httpRequestHandler = new HttpRequestHandler();
