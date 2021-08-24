@@ -38,7 +38,11 @@ namespace FederalRegisterClient
                 }
                 if (StatusCodeIsRetryable(httpResponseMessage.StatusCode)) {
                     await Task.Delay(httpResponseMessage.Headers.RetryAfter.Delta ?? default);
-                    continue;
+                }
+                else
+                {
+                    //TODO: Return message like "Request for document reference {documentNumber} failed with a status of {httpResponseMessage.StatusCode}."
+                    break;
                 }
             }
             return document;
