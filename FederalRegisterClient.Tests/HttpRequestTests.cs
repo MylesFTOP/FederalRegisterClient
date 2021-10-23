@@ -114,11 +114,6 @@ namespace FederalRegisterClient.Tests
             var documentNumber = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
             var document = await DocumentHandler.GetDocumentAsync(documentNumber);
             Assert.IsType<DocumentModel>(document);
-            handlerMock.Protected().Verify(
-                "SendAsync",
-                Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get),
-                ItExpr.IsAny<CancellationToken>());
         }
 
         [Fact]
