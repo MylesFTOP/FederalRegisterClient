@@ -111,6 +111,38 @@ namespace FederalRegisterClient.Tests
             var httpClient = new HttpClient(handlerMock.Object);
             HttpRequestHandler.ConfigureClient(httpClient, "https://www.mock.test/");
 
+            var documentNumber = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
+            var document = await DocumentHandler.GetDocumentAsync(documentNumber);
+            Assert.IsType<DocumentModel>(document);
+            handlerMock.Protected().Verify(
+                "SendAsync",
+                Times.Exactly(1),
+                ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get),
+                ItExpr.IsAny<CancellationToken>());
+        }
+
+        [Fact]
+        public async Task DocumentHandler_ShouldReturnDocumentWithSentDetails()
+        {
+            var httpRequestHandler = new HttpRequestHandler();
+            var handlerMock = new Mock<HttpMessageHandler>();
+            var httpResponseMessage = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(@"{ ""document_number"" : ""01-27917""}", Encoding.UTF8, "application/json")
+            };
+
+            handlerMock
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(httpResponseMessage);
+
+            var httpClient = new HttpClient(handlerMock.Object);
+            HttpRequestHandler.ConfigureClient(httpClient, "https://www.mock.test/");
+
             var expected = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
             var document = await DocumentHandler.GetDocumentAsync(expected);
             Assert.NotNull(document);
