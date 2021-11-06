@@ -13,6 +13,8 @@ namespace FederalRegisterClient.Tests
 {
     public class HttpRequestTests
     {
+        private readonly StringContent documentContentPresidentialRecordsAct = new StringContent(@"{ ""document_number"" : ""01-27917""}", Encoding.UTF8, "application/json");
+
         [Theory]
         [InlineData(HttpStatusCode.ServiceUnavailable, 3)]
         [InlineData(HttpStatusCode.TooManyRequests, 3)]
@@ -63,7 +65,7 @@ namespace FederalRegisterClient.Tests
             {
                 StatusCode = httpStatusCode,
                 Content = httpStatusCode == HttpStatusCode.OK 
-                    ? new StringContent(@"{ ""document_number"" : ""01-27917""}", Encoding.UTF8, "application/json") 
+                    ? documentContentPresidentialRecordsAct
                     : new StringContent("")
             };
             httpResponseMessage.Headers.Add("Retry-After", retryCondition);
@@ -97,7 +99,7 @@ namespace FederalRegisterClient.Tests
             var httpResponseMessage = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(@"{ ""document_number"" : ""01-27917""}", Encoding.UTF8, "application/json")
+                Content = documentContentPresidentialRecordsAct
             };
 
             handlerMock
@@ -124,7 +126,7 @@ namespace FederalRegisterClient.Tests
             var httpResponseMessage = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(@"{ ""document_number"" : ""01-27917""}", Encoding.UTF8, "application/json")
+                Content = documentContentPresidentialRecordsAct
             };
 
             handlerMock
