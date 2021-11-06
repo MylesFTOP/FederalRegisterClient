@@ -13,7 +13,7 @@ namespace FederalRegisterClient.Tests
 {
     public class HttpRequestTests
     {
-        private readonly StringContent documentContentPresidentialRecordsAct = GenerateMockDocumentContent("01-27917");
+        private readonly StringContent documentContentPresidentialRecordsAct = GenerateMockDocumentContent("01-27917"); // EO 13233, "Further Implementation of the Presidential Records Act"
         private readonly StringContent documentContentUnitedNationsDay = GenerateMockDocumentContent("2021-23559");
 
         private static StringContent GenerateMockDocumentContent(string documentNumber) 
@@ -112,6 +112,28 @@ namespace FederalRegisterClient.Tests
 
         [Fact]
         public async Task DocumentHandler_ShouldReturnDocumentWithSentDetails()
+        {
+            var httpResponseMessage = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = documentContentPresidentialRecordsAct
+            };
+
+            var handlerMock = CreateMockMessageHandler(httpResponseMessage);
+            var httpClient = CreateMockHttpClient(handlerMock.Object);
+
+            var expected = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
+            var document = await DocumentHandler.GetDocumentAsync(expected);
+            Assert.NotNull(document);
+            handlerMock.Protected().Verify(
+                "SendAsync",
+                Times.Exactly(1),
+                ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get),
+                ItExpr.IsAny<CancellationToken>());
+        }
+
+        [Fact(Skip = "Test is still being written - this should read both documents in a list")]
+        public async Task DocumentHandler_ShouldReturnMultipleDocumentsWhenMultipleDocumentsRequested()
         {
             var httpResponseMessage = new HttpResponseMessage
             {
