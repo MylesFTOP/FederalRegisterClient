@@ -1,0 +1,21 @@
+name: .NET Core
+
+on: [ push , pull_request ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.201
+    - name: Build with dotnet
+      run: dotnet build ./FederalRegisterClient --configuration Release
+    - name: Run tests with dotnet
+      run: dotnet test ./FederalRegisterClient --configuration Release --settings "./.github/coverlet.runsettings" /p:CollectCoverage=true
+    - name: Push coverage report to codecov
+      uses: codecov/codecov-action@v1
