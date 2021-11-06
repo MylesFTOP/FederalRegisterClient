@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FederalRegisterClient", "Fe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FederalRegisterClient.Tests", "FederalRegisterClient.Tests\FederalRegisterClient.Tests.csproj", "{CAB991B6-C41F-4B2B-85D8-721446CBC5EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FederalRegisterClient.Console", "FederalRegisterClient.Console\FederalRegisterClient.Console.csproj", "{9397671E-0895-4276-A2A1-6748F8C8110D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FederalRegisterClient.ConsoleApp", "FederalRegisterClient.ConsoleApp\FederalRegisterClient.ConsoleApp.csproj", "{7D799185-E792-4FD0-8C01-DAD4481116C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{CAB991B6-C41F-4B2B-85D8-721446CBC5EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAB991B6-C41F-4B2B-85D8-721446CBC5EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAB991B6-C41F-4B2B-85D8-721446CBC5EE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9397671E-0895-4276-A2A1-6748F8C8110D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9397671E-0895-4276-A2A1-6748F8C8110D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9397671E-0895-4276-A2A1-6748F8C8110D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9397671E-0895-4276-A2A1-6748F8C8110D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D799185-E792-4FD0-8C01-DAD4481116C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D799185-E792-4FD0-8C01-DAD4481116C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D799185-E792-4FD0-8C01-DAD4481116C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D799185-E792-4FD0-8C01-DAD4481116C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

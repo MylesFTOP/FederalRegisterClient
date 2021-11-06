@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FederalRegisterClient;
 
-namespace FederalRegisterClient.Console
+namespace FederalRegisterClient.ConsoleApp
 {
     public static class ConsoleUI
     {
