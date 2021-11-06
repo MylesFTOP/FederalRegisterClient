@@ -31,6 +31,12 @@ namespace FederalRegisterClient.Tests
             return handlerMock;
         }
 
+        private HttpClient CreateMockHttpClient(HttpMessageHandler messageHandler) {
+            HttpClient httpClient = new HttpClient(messageHandler);
+            HttpRequestHandler.ConfigureClient(httpClient, "https://www.mock.test/");
+            return httpClient;
+        }
+
         [Theory]
         [InlineData(HttpStatusCode.ServiceUnavailable, 3)]
         [InlineData(HttpStatusCode.TooManyRequests, 3)]
@@ -46,9 +52,7 @@ namespace FederalRegisterClient.Tests
             httpResponseMessage.Headers.Add("Retry-After", retryCondition);
 
             var handlerMock = CreateMockMessageHandler(httpResponseMessage);
-
-            var httpClient = new HttpClient(handlerMock.Object);
-            HttpRequestHandler.ConfigureClient(httpClient, "https://www.mock.test/");
+            var httpClient = CreateMockHttpClient(handlerMock.Object);
 
             var document = await DocumentHandler.GetDocumentAsync("");
 
@@ -77,10 +81,7 @@ namespace FederalRegisterClient.Tests
             httpResponseMessage.Headers.Add("Retry-After", retryCondition);
 
             var handlerMock = CreateMockMessageHandler(httpResponseMessage);
-
-
-            var httpClient = new HttpClient(handlerMock.Object);
-            HttpRequestHandler.ConfigureClient(httpClient, "https://www.mock.test/");
+            var httpClient = CreateMockHttpClient(handlerMock.Object);
 
             var expected = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
             var document = await DocumentHandler.GetDocumentAsync(expected);
@@ -102,9 +103,7 @@ namespace FederalRegisterClient.Tests
             };
 
             var handlerMock = CreateMockMessageHandler(httpResponseMessage);
-
-            var httpClient = new HttpClient(handlerMock.Object);
-            HttpRequestHandler.ConfigureClient(httpClient, "https://www.mock.test/");
+            var httpClient = CreateMockHttpClient(handlerMock.Object);
 
             var documentNumber = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
             var document = await DocumentHandler.GetDocumentAsync(documentNumber);
@@ -121,9 +120,7 @@ namespace FederalRegisterClient.Tests
             };
 
             var handlerMock = CreateMockMessageHandler(httpResponseMessage);
-
-            var httpClient = new HttpClient(handlerMock.Object);
-            HttpRequestHandler.ConfigureClient(httpClient, "https://www.mock.test/");
+            var httpClient = CreateMockHttpClient(handlerMock.Object);
 
             var expected = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
             var document = await DocumentHandler.GetDocumentAsync(expected);
