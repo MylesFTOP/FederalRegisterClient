@@ -47,20 +47,5 @@ namespace FederalRegisterClient
                 }
             }
         }
-
-        public static async Task RunAsync()
-        {
-            Console.WriteLine("Please enter document reference to retrieve:");
-            String documentNumberToRetrieve = Console.ReadLine();
-            try
-            {
-                var document = await GetDocumentAsync(documentNumberToRetrieve);
-                ShowDocument(document);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
     }
 }
