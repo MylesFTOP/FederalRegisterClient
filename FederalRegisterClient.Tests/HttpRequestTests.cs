@@ -25,8 +25,6 @@ namespace FederalRegisterClient.Tests
         [InlineData(HttpStatusCode.NotFound, 1)]
         public async Task GetDocumentAsJsonAsync_ShouldRetryExpectedNumberOfTimesIfStatusCodeIsRetryable(HttpStatusCode httpStatusCode, int numberOfTries)
         {
-            var httpRequestHandler = new HttpRequestHandler();
-            var handlerMock = new Mock<HttpMessageHandler>();
             TimeSpan timeSpanDelay = default;
             var retryCondition = new RetryConditionHeaderValue(timeSpanDelay).ToString();
             var httpResponseMessage = new HttpResponseMessage
@@ -35,6 +33,7 @@ namespace FederalRegisterClient.Tests
             };
             httpResponseMessage.Headers.Add("Retry-After", retryCondition);
 
+            var handlerMock = new Mock<HttpMessageHandler>();
             handlerMock
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
@@ -61,8 +60,6 @@ namespace FederalRegisterClient.Tests
         [InlineData(HttpStatusCode.TooManyRequests)]
         public async Task GetDocumentAsJsonAsync_ShouldReturnDocumentIfRetryIsSuccessful(HttpStatusCode httpStatusCode)
         {
-            var httpRequestHandler = new HttpRequestHandler();
-            var handlerMock = new Mock<HttpMessageHandler>();
             TimeSpan timeSpanDelay = default;
             var retryCondition = new RetryConditionHeaderValue(timeSpanDelay).ToString();
             var httpResponseMessage = new HttpResponseMessage
@@ -74,6 +71,7 @@ namespace FederalRegisterClient.Tests
             };
             httpResponseMessage.Headers.Add("Retry-After", retryCondition);
 
+            var handlerMock = new Mock<HttpMessageHandler>();
             handlerMock
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
@@ -98,14 +96,13 @@ namespace FederalRegisterClient.Tests
         [Fact]
         public async Task DocumentHandler_ShouldReturnADocument()
         {
-            var httpRequestHandler = new HttpRequestHandler();
-            var handlerMock = new Mock<HttpMessageHandler>();
             var httpResponseMessage = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
                 Content = documentContentPresidentialRecordsAct
             };
 
+            var handlerMock = new Mock<HttpMessageHandler>();
             handlerMock
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
@@ -125,14 +122,13 @@ namespace FederalRegisterClient.Tests
         [Fact]
         public async Task DocumentHandler_ShouldReturnDocumentWithSentDetails()
         {
-            var httpRequestHandler = new HttpRequestHandler();
-            var handlerMock = new Mock<HttpMessageHandler>();
             var httpResponseMessage = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
                 Content = documentContentPresidentialRecordsAct
             };
 
+            var handlerMock = new Mock<HttpMessageHandler>();
             handlerMock
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>(
