@@ -13,7 +13,11 @@ namespace FederalRegisterClient.Tests
 {
     public class HttpRequestTests
     {
-        private readonly StringContent documentContentPresidentialRecordsAct = new StringContent(@"{ ""document_number"" : ""01-27917""}", Encoding.UTF8, "application/json");
+        private readonly StringContent documentContentPresidentialRecordsAct = GenerateMockDocumentContent("01-27917");
+        private readonly StringContent documentContentUnitedNationsDay = GenerateMockDocumentContent("2021-23559");
+
+        private static StringContent GenerateMockDocumentContent(string documentNumber) 
+            => new StringContent(@"{ ""document_number"" : """ + documentNumber + @""" }", Encoding.UTF8, "application/json");
 
         [Theory]
         [InlineData(HttpStatusCode.ServiceUnavailable, 3)]
