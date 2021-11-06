@@ -5,6 +5,7 @@
       <DataCollector friendlyName="XPlat code coverage">
         <Configuration>
           <Format>opencover</Format>
+		  <Exclude>[FederalRegisterClient.Console]*</Exclude>
         </Configuration>
       </DataCollector>
     </DataCollectors>
