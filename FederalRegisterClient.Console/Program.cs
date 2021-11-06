@@ -8,7 +8,7 @@ namespace FederalRegisterClient.Console
         {
             HttpRequestHandler.ConfigureClient(
                 Factory.CreateHttpClient(), "https://www.federalregister.gov/api/v1/documents/");
-            DocumentHandler
+            ConsoleUI
                 .RunAsync().GetAwaiter().GetResult();
         }
     }
