@@ -19,6 +19,18 @@ namespace FederalRegisterClient.Tests
         private static StringContent GenerateMockDocumentContent(string documentNumber) 
             => new StringContent(@"{ ""document_number"" : """ + documentNumber + @""" }", Encoding.UTF8, "application/json");
 
+        private Mock<HttpMessageHandler> CreateMockMessageHandler(HttpResponseMessage httpResponseMessage) {
+            var handlerMock = new Mock<HttpMessageHandler>();
+            handlerMock
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(httpResponseMessage);
+            return handlerMock;
+        }
+
         [Theory]
         [InlineData(HttpStatusCode.ServiceUnavailable, 3)]
         [InlineData(HttpStatusCode.TooManyRequests, 3)]
@@ -33,14 +45,7 @@ namespace FederalRegisterClient.Tests
             };
             httpResponseMessage.Headers.Add("Retry-After", retryCondition);
 
-            var handlerMock = new Mock<HttpMessageHandler>();
-            handlerMock
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(httpResponseMessage);
+            var handlerMock = CreateMockMessageHandler(httpResponseMessage);
 
             var httpClient = new HttpClient(handlerMock.Object);
             HttpRequestHandler.ConfigureClient(httpClient, "https://www.mock.test/");
@@ -71,14 +76,8 @@ namespace FederalRegisterClient.Tests
             };
             httpResponseMessage.Headers.Add("Retry-After", retryCondition);
 
-            var handlerMock = new Mock<HttpMessageHandler>();
-            handlerMock
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(httpResponseMessage);
+            var handlerMock = CreateMockMessageHandler(httpResponseMessage);
+
 
             var httpClient = new HttpClient(handlerMock.Object);
             HttpRequestHandler.ConfigureClient(httpClient, "https://www.mock.test/");
@@ -102,14 +101,7 @@ namespace FederalRegisterClient.Tests
                 Content = documentContentPresidentialRecordsAct
             };
 
-            var handlerMock = new Mock<HttpMessageHandler>();
-            handlerMock
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(httpResponseMessage);
+            var handlerMock = CreateMockMessageHandler(httpResponseMessage);
 
             var httpClient = new HttpClient(handlerMock.Object);
             HttpRequestHandler.ConfigureClient(httpClient, "https://www.mock.test/");
@@ -128,14 +120,7 @@ namespace FederalRegisterClient.Tests
                 Content = documentContentPresidentialRecordsAct
             };
 
-            var handlerMock = new Mock<HttpMessageHandler>();
-            handlerMock
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(httpResponseMessage);
+            var handlerMock = CreateMockMessageHandler(httpResponseMessage);
 
             var httpClient = new HttpClient(handlerMock.Object);
             HttpRequestHandler.ConfigureClient(httpClient, "https://www.mock.test/");
