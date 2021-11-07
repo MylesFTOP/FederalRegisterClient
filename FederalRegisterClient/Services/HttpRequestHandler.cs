@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FederalRegisterClient
 {
-    public class HttpRequestHandler
+    public class HttpRequestHandler : IRequestHandler
     {
         public static HttpClient _httpClient;
         private static int MaxRetries { get; } = 3;
@@ -28,7 +28,7 @@ namespace FederalRegisterClient
             }
         }
 
-        public static async Task<DocumentModel> GetDocumentAsJsonAsync(string documentNumber) {
+        public async Task<DocumentModel> GetDocumentAsJsonAsync(string documentNumber) {
             DocumentModel document = Factory.CreateDocument();
 
             for (int retryAttempts = 0; retryAttempts < MaxRetries; retryAttempts++) {

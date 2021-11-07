@@ -36,6 +36,11 @@ namespace FederalRegisterClient.ConsoleApp
 
         public static async Task RunAsync()
         {
+            await RetrieveSingleDocument();
+        }
+
+        public static async Task RetrieveSingleDocument()
+        { 
             Console.WriteLine("Please enter document reference to retrieve:");
             String documentNumberToRetrieve = Console.ReadLine();
             try
