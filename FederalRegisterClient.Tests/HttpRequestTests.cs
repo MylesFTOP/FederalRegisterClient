@@ -64,6 +64,27 @@ namespace FederalRegisterClient.Tests
                 );
         }
 
+
+        [Fact]
+        public async Task GetDocumentAsJsonAsync_ShouldThrowExceptionIfDocumentFails()
+        {
+            TimeSpan timeSpanDelay = default;
+            var retryCondition = new RetryConditionHeaderValue(timeSpanDelay).ToString();
+            var httpResponseMessage = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.NotFound
+            };
+            httpResponseMessage.Headers.Add("Retry-After", retryCondition);
+
+            var handlerMock = CreateMockMessageHandler(httpResponseMessage);
+            var httpClient = CreateMockHttpClient(handlerMock.Object);
+
+
+            await Assert.ThrowsAsync<Exception>(
+                () => DocumentHandler.GetDocumentAsync("")
+                );
+        }
+
         [Theory]
         [InlineData(HttpStatusCode.ServiceUnavailable)]
         [InlineData(HttpStatusCode.TooManyRequests)]
