@@ -65,7 +65,7 @@ namespace FederalRegisterClient.Tests
         }
 
 
-        [Fact]
+        [Fact(Skip="New test - asserted behaviour has not yet been added")]
         public async Task GetDocumentAsJsonAsync_ShouldThrowExceptionIfDocumentFails()
         {
             TimeSpan timeSpanDelay = default;
