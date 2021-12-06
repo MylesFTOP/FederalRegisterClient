@@ -170,26 +170,23 @@ namespace FederalRegisterClient.Tests
                 ItExpr.IsAny<CancellationToken>());
         }
 
-        [Fact(Skip ="Test has external dependency")]
+        [Fact(Skip ="Test is still being developed to use mocked response")]
         public void DocumentHandler_ShouldReturnMultipleDocumentsWhenMultipleDocumentsRequested()
         {
-            //var documents = new StringContent(
-            //    @"{ ""document_number"" : """ + "01-27917" + @""" },
-            //    { ""document_number"" : """ + "01-27917" + @""" }"
-            //);
-            //var httpResponseMessage = new HttpResponseMessage()
-            //{
-            //    StatusCode = HttpStatusCode.OK,
-            //    Content = documents,
-            //};
+            var documentNumbers = new string[2] { "01-27917", "2021-23559" };
+            var httpResponseMessage = new HttpResponseMessage()
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = GenerateMockDocumentContent(documentNumbers),
+            };
 
-            //var handlerMock = CreateMockMessageHandler(httpResponseMessage);
-            //var httpClient = CreateMockHttpClient(handlerMock.Object);
+            var handlerMock = CreateMockMessageHandler(httpResponseMessage);
+            var httpClient = CreateMockHttpClient(handlerMock.Object);
 
-            HttpRequestHandler.ConfigureClient(
-                Factory.CreateHttpClient(), "https://www.federalregister.gov/api/v1/documents/");
+            //HttpRequestHandler.ConfigureClient(
+            //    Factory.CreateHttpClient(), "https://www.federalregister.gov/api/v1/documents/");
 
-            List<string> expected = new List<string> { "01-27917" , "2021-23559" }; // EO 13233, "Further Implementation of the Presidential Records Act"
+            List<string> expected = documentNumbers.ToList();
             var document = DocumentHandler.GetDocuments(expected);
             var expectedCount = 2;
             var actualCount = document.OfType<DocumentModel>().ToList().Count();
