@@ -8,6 +8,8 @@ using Moq.Protected;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FederalRegisterClient.Tests
 {
@@ -153,26 +155,30 @@ namespace FederalRegisterClient.Tests
                 ItExpr.IsAny<CancellationToken>());
         }
 
-        [Fact(Skip = "Test is still being written - this should read both documents in a list")]
-        public async Task DocumentHandler_ShouldReturnMultipleDocumentsWhenMultipleDocumentsRequested()
+        [Fact(Skip ="Test has external dependency")]
+        public void DocumentHandler_ShouldReturnMultipleDocumentsWhenMultipleDocumentsRequested()
         {
-            var httpResponseMessage = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = documentContentPresidentialRecordsAct
-            };
+            //var documents = new StringContent(
+            //    @"{ ""document_number"" : """ + "01-27917" + @""" },
+            //    { ""document_number"" : """ + "01-27917" + @""" }"
+            //);
+            //var httpResponseMessage = new HttpResponseMessage()
+            //{
+            //    StatusCode = HttpStatusCode.OK,
+            //    Content = documents,
+            //};
 
-            var handlerMock = CreateMockMessageHandler(httpResponseMessage);
-            var httpClient = CreateMockHttpClient(handlerMock.Object);
+            //var handlerMock = CreateMockMessageHandler(httpResponseMessage);
+            //var httpClient = CreateMockHttpClient(handlerMock.Object);
 
-            var expected = "01-27917"; // EO 13233, "Further Implementation of the Presidential Records Act"
-            var document = await DocumentHandler.GetDocumentAsync(expected);
-            Assert.NotNull(document);
-            handlerMock.Protected().Verify(
-                "SendAsync",
-                Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get),
-                ItExpr.IsAny<CancellationToken>());
+            HttpRequestHandler.ConfigureClient(
+                Factory.CreateHttpClient(), "https://www.federalregister.gov/api/v1/documents/");
+
+            List<string> expected = new List<string> { "01-27917" , "2021-23559" }; // EO 13233, "Further Implementation of the Presidential Records Act"
+            var document = DocumentHandler.GetDocuments(expected);
+            var expectedCount = 2;
+            var actualCount = document.OfType<DocumentModel>().ToList().Count();
+            Assert.Equal(expectedCount, actualCount);
         }
     }
 }
