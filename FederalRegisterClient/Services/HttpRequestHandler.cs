@@ -57,9 +57,9 @@ namespace FederalRegisterClient
             return retryableStatusCodes.Contains(statusCode);
         }
 
-        private static async Task<HttpResponseMessage> ReturnDocumentAsJsonAsync(string documentNumber)
+        private static async Task<HttpResponseMessage> ReturnDocumentAsJsonAsync(string documentNumbers)
         {
-            return await _httpClient.GetAsync($"{documentNumber}.json");
+            return await _httpClient.GetAsync($"{documentNumbers}.json");
         }
     }
 }
