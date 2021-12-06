@@ -17,9 +17,24 @@ namespace FederalRegisterClient.Tests
     {
         private readonly StringContent documentContentPresidentialRecordsAct = GenerateMockDocumentContent("01-27917"); // EO 13233, "Further Implementation of the Presidential Records Act"
         private readonly StringContent documentContentUnitedNationsDay = GenerateMockDocumentContent("2021-23559");
-
+        
         private static StringContent GenerateMockDocumentContent(string documentNumber) 
-            => new StringContent(@"{ ""document_number"" : """ + documentNumber + @""" }", Encoding.UTF8, "application/json");
+            => new StringContent(BuildSingleDocumentInner(documentNumber), Encoding.UTF8, "application/json");
+        
+        private static StringContent GenerateMockDocumentContent(string[] documentNumbers) 
+            => new StringContent(BuildDocumentResponse(documentNumbers), Encoding.UTF8, "application/json");
+
+        private static string BuildDocumentResponse(string[] documentNumbers) {
+            string documentResponse = "";
+            foreach (var documentNumber in documentNumbers)
+            {
+                documentResponse += BuildSingleDocumentInner(documentNumber);
+            }
+            return documentResponse;
+        }
+
+        private static string BuildSingleDocumentInner(string documentNumber) 
+            => @"{ ""document_number"" : """ + documentNumber + @""" }";
 
         private Mock<HttpMessageHandler> CreateMockMessageHandler(HttpResponseMessage httpResponseMessage) {
             var handlerMock = new Mock<HttpMessageHandler>();
