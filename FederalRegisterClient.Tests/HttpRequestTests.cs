@@ -24,6 +24,36 @@ namespace FederalRegisterClient.Tests
         private static StringContent GenerateMockDocumentContent(string[] documentNumbers) 
             => new StringContent(BuildDocumentResponse(documentNumbers), Encoding.UTF8, "application/json");
 
+        private static String MultiResponseDocument = @"{""count"": 2,
+  ""results"": [
+    {
+      ""document_number"": ""2021-23559"",
+      ""presidential_document_number"": ""10293"",
+      ""proclamation_number"": ""10293"",
+      ""publication_date"": ""2021-10-27"",
+      ""signing_date"": ""2021-10-22"",
+      ""start_page"": 59597,
+      ""subtype"": ""Proclamation"",
+      ""title"": ""United Nations Day, 2021"",
+      ""toc_doc"": ""United Nations Day (Proc. 10293)"",
+      ""type"": ""Presidential Document"",
+      ""volume"": 86
+    },
+    {
+      ""document_number"": ""01-27917"",
+      ""presidential_document_number"": ""13233"",
+      ""proclamation_number"": null,
+      ""signing_date"": ""2001-11-01"",
+      ""start_page"": 56023,
+      ""subtype"": ""Executive Order"",
+      ""title"": ""Further Implementation of the Presidential Records Act"",
+      ""toc_doc"": ""Presidential Records Act, implementing policies and procedures; establishment (EO 13233)"",
+      ""type"": ""Presidential Document"",
+      ""volume"": 66
+    }
+  ]
+}";
+
         private static string BuildDocumentResponse(string[] documentNumbers) {
             string documentResponse = "";
             foreach (var documentNumber in documentNumbers)
