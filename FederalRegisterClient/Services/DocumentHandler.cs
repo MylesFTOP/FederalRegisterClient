@@ -12,6 +12,12 @@ namespace FederalRegisterClient
             documents = GetDocumentsInMultipleCalls(documentNumbers);
             return documents;
         }
+
+        private static List<DocumentModel> GetDocumentsInSingleCall(List<string> documentNumbers)
+        {
+            var documents = Factory.CreateDocumentList();
+            return documents;
+        }
         
         private static List<DocumentModel> GetDocumentsInMultipleCalls(List<string> documentNumbers)
         {
