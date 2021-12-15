@@ -15,6 +15,7 @@ namespace FederalRegisterClient
 
         private static List<DocumentModel> GetDocumentsInSingleCall(List<string> documentNumbers)
         {
+            string documentsToRetrieve = string.Join(",", documentNumbers);
             var documents = Factory.CreateDocumentList();
             return documents;
         }
