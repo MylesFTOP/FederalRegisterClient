@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FederalRegisterClient
+﻿namespace FederalRegisterClient
 {
     class Program
     {

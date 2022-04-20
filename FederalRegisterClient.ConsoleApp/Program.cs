@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FederalRegisterClient.ConsoleApp
+﻿namespace FederalRegisterClient.ConsoleApp
 {
     class Program
     {
