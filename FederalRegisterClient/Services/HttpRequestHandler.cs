@@ -29,10 +29,6 @@ namespace FederalRegisterClient
         }
 
         public static async Task<DocumentModel> GetDocumentAsJsonAsync(string documentNumber) {
-            return await GetResponseAsJsonAsync(documentNumber);
-        }
-
-        private static async Task<DocumentModel> GetResponseAsJsonAsync(string documentNumber) {
             DocumentModel document = Factory.CreateDocument();
 
             for (int retryAttempts = 0; retryAttempts < MaxRetries; retryAttempts++) {
