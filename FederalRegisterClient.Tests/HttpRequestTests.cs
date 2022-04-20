@@ -24,7 +24,7 @@ namespace FederalRegisterClient.Tests
         private static StringContent GenerateMockDocumentContent(string[] documentNumbers) 
             => new StringContent(BuildDocumentResponse(documentNumbers), Encoding.UTF8, "application/json");
 
-        private static String MultiResponseDocument = @"{""count"": 2,
+        private static readonly String MultiResponseDocument = @"{""count"": 2,
   ""results"": [
     {
       ""document_number"": ""2021-23559"",
@@ -87,7 +87,6 @@ namespace FederalRegisterClient.Tests
         [Theory]
         [InlineData(HttpStatusCode.ServiceUnavailable, 3)]
         [InlineData(HttpStatusCode.TooManyRequests, 3)]
-        [InlineData(HttpStatusCode.NotFound, 1)]
         public async Task GetDocumentAsJsonAsync_ShouldRetryExpectedNumberOfTimesIfStatusCodeIsRetryable(HttpStatusCode httpStatusCode, int numberOfTries)
         {
             TimeSpan timeSpanDelay = default;
@@ -111,8 +110,7 @@ namespace FederalRegisterClient.Tests
                 );
         }
 
-
-        [Fact(Skip="New test - asserted behaviour has not yet been added")]
+        [Fact]
         public async Task GetDocumentAsJsonAsync_ShouldThrowExceptionIfDocumentFails()
         {
             TimeSpan timeSpanDelay = default;
@@ -127,7 +125,7 @@ namespace FederalRegisterClient.Tests
             var httpClient = CreateMockHttpClient(handlerMock.Object);
 
 
-            await Assert.ThrowsAsync<Exception>(
+            await Assert.ThrowsAsync<HttpRequestException>(
                 () => DocumentHandler.GetDocumentAsync("")
                 );
         }
